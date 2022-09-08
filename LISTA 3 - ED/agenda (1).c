@@ -2,6 +2,10 @@
 #include<stdlib.h>
 #include<string.h>
 
+/*ediÃ§oes feitas: usuario editar e apagar cadastro,
+e ao editar e apagar, mostrar todos usuarios cadastrados e ao 
+excluir tambem pra facilitar ao usuario no reconhecimento*/
+
 int main(){
     char nome[100][100];
     char email[100][100];
@@ -12,14 +16,15 @@ int main(){
 
 
     do{
-        printf("======================== MENU ========================\n");
-        printf("| 0 ........................................... SAIR |\n");
+        printf("======================== MENU ========================\n");        
         printf("| 1 ...................................... ADICIONAR |\n");
         printf("| 2 ........................................ MOSTRAR |\n");
         printf("| 3 ...................................... PESQUISAR |\n");
         printf("| 4 ......................................... EDITAR |\n");
         printf("| 5 ......................................... APAGAR |\n");
         printf("| 6........................................... SOBRE |\n");
+        printf("|                                                    |\n");
+        printf("| 0 - SAIR                                           |\n");
         printf("======================================================\n");
         scanf("%d", &escolha);
         system("cls");
@@ -72,22 +77,71 @@ int main(){
             }
         case 4:
             printf("===================== EDITAR CADASTRO ===================\n");
+            printf("\n");
+            for (int i = 0; i < contUser;i++)
+            {
+                printf("===================== USUARIO %d ======================\n", i + 1);
+                printf("| NOME: %s\n", nome[i]);
+                printf("| TELEFONE: (%d) %d-%d\n", ddd[i], tel[i]/10000, tel[i]%10000);
+                printf("| E-MAIL: %s\n", email[i]);
+                printf("======================================================\n\n");
+            }
             printf("Entre com o nome a ser editado: ");
             scanf(" %[^\n]", nomeAux);
+                for (int i = 0; i < contUser; i++)
+                {
+                  if(strcmp(nome[i], nomeAux) == 0 ){
+                      printf("NOME: ");
+                      scanf(" %[^\n]", nome[i]);
 
+                      printf("DDD: ");
+                      scanf("%d", &ddd[i]);
+
+                      printf("TELEFONE: ");
+                      scanf("%d", &tel[i]);
+
+                      printf("E-MAIL: ");
+                      scanf(" %[^\n]", email[i]);
+                      break;
+                  }
+                }
+            printf("Cadastro editado\n");
             break;
-
         case 5:
-            printf("===================== APAGAR CADASTRO ===================\n");
-            printf("Entre com o nome a ser verificado: ");
-            scanf(" %[^\n]", nomeAux);
+            printf("===================== APAGAR CADASTRO ===================\n"); 
+            printf("\n");
+            for (int i = 0; i < contUser;i++)
+            {
+                printf("===================== USUARIO %d ======================\n", i + 1);
+                printf("| NOME: %s\n", nome[i]);
+                printf("| TELEFONE: (%d) %d-%d\n", ddd[i], tel[i]/10000, tel[i]%10000);
+                printf("| E-MAIL: %s\n", email[i]);
+                printf("======================================================\n\n");
+            }
+            printf("\nEntre com o NOME do usuario cadastrado a ser apagado: ");
+            scanf(" %[^\n]", nomeAux);             
+                for (int i = 0; i < contUser; i++)
+                {
+                    if(strcmp(nome[i], nomeAux) == 0 ){
+                        contUser--;
+                        strcpy(nome[i], nome[contUser]);
+                        ddd[i] = ddd[contUser];
+                        tel[i] = tel[contUser];
+                        strcpy(email[i], email[contUser]);
+                        contUser++;
+                        break;
+                    }                
+                }
+            printf("Cadastro apagado\n");
+            contUser--;
 
             break;
         case 6:
             printf("======================== SOBRE =======================\n");
             printf("| Este software foi desenvolvido para fins didaticos.|\n");
-            printf("| AUTOR: Andrew Silva de Oliveira                    |\n");
-            printf("| DATA: 02/09/2022                                   |\n");
+            printf("| CRIADO POR: ProfÂº Marques Moreira de Sousa         |\n");
+            printf("| MODIFICADO POR: Andrew Silva de Oliveira           |\n");
+            printf("| DATA: 08/09/2022                                   |\n");
             printf("======================================================\n");
             break;
         default:
