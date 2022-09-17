@@ -36,6 +36,16 @@ int menu(){
     return escolha;
 }
 
+void printAdress(USER usuarios[], int ind){
+    for(int j = 0; j < usuarios[ind].contEnd; j++){
+                    printf("| LOGRADOURO: %s\n",  usuarios[ind].endereco[j].logradouro);
+                    printf("| NUMERO: %d\n",      usuarios[ind].endereco[j].numero);
+                    printf("| COMPLEMENTO: %s\n", usuarios[ind].endereco[j].complemento);
+                    printf("| BAIRRO: %s\n",      usuarios[ind].endereco[j].bairro);
+                    printf("| CEP: %d\n",         usuarios[ind].endereco[j].cep);
+                    printf("| CIDADE: %s\n",      usuarios[ind].endereco[j].cidade);
+                    }
+}
 
 
 int insert(USER usuarios[], int contUser){
@@ -70,13 +80,13 @@ int insert(USER usuarios[], int contUser){
 
         printf("CIDADE: ");
         scanf(" %[^\n]", usuarios[contUser].endereco[i].cidade);
-
+        
         usuarios[contUser].contEnd = i + 1;
 
         if( i < maxEnd - 1){
             printf("Digite 1 para cadastrar + 1 endereco ou zero pra encerrar: \n");
             scanf("%d", &controle);
-
+            
             if(controle != 1)
                         break;
                 }
@@ -84,81 +94,36 @@ int insert(USER usuarios[], int contUser){
     return 1;
 }
 
-int main(){
-    USER usuarios[maxTam];
-
-    //strcpy(usuarios[0].nome, "Marques");
-    //usuarios[0].ddd = 34;
-    //usuarios[0].tel = 123456899;
-
-
-   /* char nome[100][100];
-    int ddd[100];
-    int tel[100];*/
-    int escolha, contUser = 0, opEdit, controle;
+void search(USER usuarios[], int contUser, int caso){
     char nomeAux[100];
-
-
-    do{
-        escolha = menu();
-        switch (escolha)
+    if(contUser == 0)
+        printf("CADASTRO VAZIO!!!\n");
+    else{
+        if(caso == 3){
+        printf("===================== BUSCAR CADASTRO ===================\n");
+        printf("Entre com o nome a ser verificado: ");
+        scanf(" %[^\n]", nomeAux);
+        }
+        for (int i = 0; i < contUser; i++)
         {
-        case 0:
-            printf("Obrigado por utilizar o SisteMarques!\n");
-            break;
-        case 1:
-            if(insert(usuarios, contUser) == 1){
-                printf("CADASTRO REALIZADO COM SUCESSO!\n");
-                contUser++;
-            }else{
-                printf("PROBLEMA: CADASTRO NAO CONCLUIDO!\n");
-            }
-            break;
-        case 2:
-            if(contUser == 0)
-                printf("CADASTRO VAZIO!!!\n");
-            else{
-                for (int i = 0; i < contUser;i++)
-                {
 
-                    printf("===================== USUARIO %d ======================\n", i + 1);
-                    printf("| NOME: %s\n", usuarios[i].nome);
-                    printf("| TELEFONE: (%d) %d-%.4d\n", usuarios[i].ddd, usuarios[i].tel/10000, usuarios[i].tel%10000);
+            if(caso == 2 || strcmp(usuarios[i].nome, nomeAux) == 0){
+                printf("===================== USUARIO %d ======================\n", i + 1);
+                printf("| NOME: %s\n", usuarios[i].nome);
+                printf("| TELEFONE: (%d) %d-%.4d\n", usuarios[i].ddd, usuarios[i].tel/10000, usuarios[i].tel%10000);
 
-                    for(int j = 0; j < usuarios[i].contEnd; j++){
-                        printf("| LOGRADOURO: %s\n",  usuarios[i].endereco[j].logradouro);
-                        printf("| NUMERO: %d\n",      usuarios[i].endereco[j].numero);
-                        printf("| COMPLEMENTO: %s\n", usuarios[i].endereco[j].complemento);
-                        printf("| BAIRRO: %s\n",      usuarios[i].endereco[j].bairro);
-                        printf("| CEP: %d\n",         usuarios[i].endereco[j].cep);
-                        printf("| CIDADE: %s\n",      usuarios[i].endereco[j].cidade);
-                    }
-
-                    printf("======================================================\n\n");
+                                   
+                printAdress(usuarios, i);
+                printf("======================================================\n\n");
                 }
-            }
-            break;
-        case 3:
-            if(contUser == 0)
-                printf("CADASTRO VAZIO!!!\n");
-            else{
-                printf("===================== BUSCAR CADASTRO ===================\n");
-                printf("Entre com o nome a ser verificado: ");
-                scanf(" %[^\n]", nomeAux);
-                for (int i = 0; i < contUser; i++)
-                {
-                    if(strcmp(usuarios[i].nome, nomeAux) == 0){
-                        printf("===================== USUARIO %d ======================\n", i + 1);
-                        printf("| NOME: %s\n", usuarios[i].nome);
-                        printf("| TELEFONE: (%d) %d-%.4d\n", usuarios[i].ddd, usuarios[i].tel/10000, usuarios[i].tel%10000);
-                        printf("======================================================\n\n");
-                        break;
-                    }
-                }
-            }
-            break;
-        case 4:
-            if(contUser == 0)
+        }
+    }
+}
+
+void edit(USER usuarios[], int contUser){
+    char nomeAUX[100];
+    int opEdit, opEnd = 0;
+    if(contUser == 0)
                 printf("CADASTRO VAZIO!!!\n");
             else{
                 printf("===================== EDITAR CADASTRO ===================\n");
@@ -172,6 +137,7 @@ int main(){
                             printf("| 1 .................................... EDITAR NOME |\n");
                             printf("| 2 ..................................... EDITAR DDD |\n");
                             printf("| 3 ................................ EDITAR TELEFONE |\n");
+                            printf("| 4 ................................ EDITAR ENDERECO |\n");
                             scanf("%d", &opEdit);
 
                             switch (opEdit)
@@ -193,6 +159,14 @@ int main(){
                                     printf("Digite o novo telefone: \n");
                                     scanf("%d", &usuarios[i].tel);
                                     break;
+                                case 4:
+                                    printAdress(usuarios, i);
+                                    if(usuarios[i].contEnd > 1){
+                                        printf("Qual dos enderecos voce quer editar? \n");
+                                        scanf("%d", &opEnd);
+                                    }
+                                    break;    
+                                    
                                 default:
                                     printf("Opcao invalida!\n");
                                     break;
@@ -203,6 +177,48 @@ int main(){
                     }
                 }
             }
+
+
+}
+
+int main(){
+    USER usuarios[maxTam];
+
+    //strcpy(usuarios[0].nome, "Marques");
+    //usuarios[0].ddd = 34;
+    //usuarios[0].tel = 123456899;
+
+
+   /* char nome[100][100];
+    int ddd[100];
+    int tel[100];*/
+    int escolha, contUser = 0, opEdit, controle;
+    char nomeAux[100];
+
+    
+    do{
+        escolha = menu();
+        switch (escolha)
+        {
+        case 0:
+            printf("Obrigado por utilizar o SisteMarques!\n");
+            break;
+        case 1:     
+            if(insert(usuarios, contUser) == 1){
+                printf("CADASTRO REALIZADO COM SUCESSO!\n");
+                contUser++;
+            }else{
+                printf("PROBLEMA: CADASTRO NAO CONCLUIDO!\n");
+            }
+            break;
+        case 2:
+            search(usuarios, contUser, escolha);           
+            break;
+        case 3:
+            search(usuarios, contUser, escolha);
+            break;
+        case 4:
+            search(usuarios, contUser, escolha);
             break;
         case 5:
             if(contUser == 0)
