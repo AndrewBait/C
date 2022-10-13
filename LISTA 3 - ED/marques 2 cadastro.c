@@ -80,13 +80,13 @@ int insert(USER usuarios[], int contUser){
 
         printf("CIDADE: ");
         scanf(" %[^\n]", usuarios[contUser].endereco[i].cidade);
-        
+
         usuarios[contUser].contEnd = i + 1;
 
         if( i < maxEnd - 1){
             printf("Digite 1 para cadastrar + 1 endereco ou zero pra encerrar: \n");
             scanf("%d", &controle);
-            
+
             if(controle != 1)
                         break;
                 }
@@ -112,7 +112,7 @@ void search(USER usuarios[], int contUser, int caso){
                 printf("| NOME: %s\n", usuarios[i].nome);
                 printf("| TELEFONE: (%d) %d-%.4d\n", usuarios[i].ddd, usuarios[i].tel/10000, usuarios[i].tel%10000);
 
-                                   
+
                 printAdress(usuarios, i);
                 printf("======================================================\n\n");
                 }
@@ -120,7 +120,7 @@ void search(USER usuarios[], int contUser, int caso){
     }
 }
 
-void edit(USER usuarios[], int contUser){
+void edit(USER usuarios[], int contUser, char nomeAux[]){
     char nomeAUX[100];
     int opEdit, opEnd = 0;
     if(contUser == 0)
@@ -165,8 +165,8 @@ void edit(USER usuarios[], int contUser){
                                         printf("Qual dos enderecos voce quer editar? \n");
                                         scanf("%d", &opEnd);
                                     }
-                                    break;    
-                                    
+                                    break;
+
                                 default:
                                     printf("Opcao invalida!\n");
                                     break;
@@ -195,7 +195,7 @@ int main(){
     int escolha, contUser = 0, opEdit, controle;
     char nomeAux[100];
 
-    
+
     do{
         escolha = menu();
         switch (escolha)
@@ -203,7 +203,7 @@ int main(){
         case 0:
             printf("Obrigado por utilizar o SisteMarques!\n");
             break;
-        case 1:     
+        case 1:
             if(insert(usuarios, contUser) == 1){
                 printf("CADASTRO REALIZADO COM SUCESSO!\n");
                 contUser++;
@@ -212,7 +212,7 @@ int main(){
             }
             break;
         case 2:
-            search(usuarios, contUser, escolha);           
+            search(usuarios, contUser, escolha);
             break;
         case 3:
             search(usuarios, contUser, escolha);
